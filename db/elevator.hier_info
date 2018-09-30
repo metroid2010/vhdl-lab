@@ -1,0 +1,10 @@
+|counter
+reset => process_0.IN1
+clk => c[0].CLK
+clk => c[1].CLK
+enable => process_0.IN0
+count[0] <= c[0].DB_MAX_OUTPUT_PORT_TYPE
+count[1] <= c[1].DB_MAX_OUTPUT_PORT_TYPE
+carry_out <= Equal0.DB_MAX_OUTPUT_PORT_TYPE
+
+

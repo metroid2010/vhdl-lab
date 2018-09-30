@@ -14,9 +14,4 @@ PORT (
     );
 END decoder;
 
-ARCHITECTURE decoder_a OF decoder IS
-	SIGNAL 
-PROCESS (B)
-BEGIN
-	IF
 
