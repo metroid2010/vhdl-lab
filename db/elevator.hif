@@ -31,7 +31,37 @@ ON
 # case_insensitive
 # source_file
 counter.vhd
-4725e1f4fbfa7a258a6266226d89885
+87f1d8d589662d2bf03f4282f144ab6
+5
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+}
+# lmf
+c:|altera|91|quartus|lmf|maxplus2.lmf
+a36c8ec425c8a2589af98b2d4daabc3
+# macro_sequence
+
+# end
+# entity
+encoder4
+# storage
+db|elevator.(1).cnf
+db|elevator.(1).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_insensitive
+# source_file
+encoder4.vhd
+5f71c7c3b1cec2da79f1ed62d9b94a
 5
 # internal_option {
 HDL_INITIAL_FANOUT_LIMIT
