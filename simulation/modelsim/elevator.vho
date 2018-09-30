@@ -16,7 +16,7 @@
 -- PROGRAM "Quartus II"
 -- VERSION "Version 9.1 Build 222 10/21/2009 SJ Web Edition"
 
--- DATE "09/28/2018 12:20:49"
+-- DATE "09/30/2018 20:06:09"
 
 -- 
 -- Device: Altera EPM7064SLC44-10 Package PLCC44
@@ -28,7 +28,6 @@
 
 LIBRARY IEEE;
 LIBRARY MAX;
-USE IEEE.NUMERIC_STD.ALL;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE MAX.MAX_COMPONENTS.ALL;
 
@@ -37,7 +36,7 @@ ENTITY 	counter IS
 	reset : IN std_logic;
 	clk : IN std_logic;
 	enable : IN std_logic;
-	count : OUT IEEE.NUMERIC_STD.unsigned(1 DOWNTO 0);
+	count : OUT std_logic_vector(1 DOWNTO 0);
 	carry_out : OUT std_logic
 	);
 END counter;
@@ -106,7 +105,7 @@ BEGIN
 ww_reset <= reset;
 ww_clk <= clk;
 ww_enable <= enable;
-count <= IEEE.NUMERIC_STD.UNSIGNED(ww_count);
+count <= ww_count;
 carry_out <= ww_carry_out;
 
 \c[0]_pterm0_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd

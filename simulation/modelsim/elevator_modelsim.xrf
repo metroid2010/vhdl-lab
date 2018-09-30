@@ -1,7 +1,7 @@
 vendor_name = ModelSim
-source_file = 1, E:/altera_projects/digital_elect_lab/counter.vhd
-source_file = 1, E:/altera_projects/digital_elect_lab/decoder.vhd
-source_file = 1, E:/altera_projects/digital_elect_lab/db/elevator.cbx.xml
+source_file = 1, E:/ALTERA_PROJECTS/VHDL-LAB/counter.vhd
+source_file = 1, E:/ALTERA_PROJECTS/VHDL-LAB/decoder.vhd
+source_file = 1, E:/ALTERA_PROJECTS/VHDL-LAB/db/elevator.cbx.xml
 source_file = 1, c:/altera/91/quartus/libraries/vhdl/ieee/prmtvs_b.vhd
 source_file = 1, c:/altera/91/quartus/libraries/vhdl/ieee/prmtvs_p.vhd
 source_file = 1, c:/altera/91/quartus/libraries/vhdl/ieee/timing_b.vhd

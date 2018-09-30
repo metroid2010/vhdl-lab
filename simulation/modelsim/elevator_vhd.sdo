@@ -24,7 +24,7 @@
 (DELAYFILE
   (SDFVERSION "2.1")
   (DESIGN "counter")
-  (DATE "09/28/2018 12:20:49")
+  (DATE "09/30/2018 20:06:09")
   (VENDOR "Altera")
   (PROGRAM "Quartus II")
   (VERSION "Version 9.1 Build 222 10/21/2009 SJ Web Edition")
