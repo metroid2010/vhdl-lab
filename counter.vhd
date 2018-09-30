@@ -2,40 +2,41 @@
 -- programming a microcontroller for an elevator
 -- counter 0-3
 
-LIBRARY IEEE;
-USE IEEE.std_logic_1164.all;
-USE IEEE.numeric_std.all;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
-ENTITY counter IS
-PORT (
-    reset,clk,enable : IN std_logic;
-    count : OUT unsigned(1 DOWNTO 0);
-    carry_out : OUT std_logic
+entity counter is
+port (
+    reset,clk,enable : in std_logic;
+    count : out unsigned(1 downto 0);
+    carry_out : out std_logic
     );
-END counter;
+end counter;
 
-ARCHITECTURE a OF counter IS
-    SIGNAL c: unsigned(1 DOWNTO 0);
-BEGIN
-    PROCESS (reset, clk, enable)
-    BEGIN
-        IF reset = '1' OR enable = '0' THEN
+architecture a of counter is
+    signal c: unsigned(1 downto 0);
+begin
+    process (reset, clk, enable)
+    begin
+        if reset = '1' or enable = '0' then
             c <= "00";
-        ELSIF clk'EVENT AND clk='1' THEN
-            IF c = "11" THEN
+        elsif clk'event and clk='1' then
+            if c = "11" then
                 c <= "00";
-            ELSE
+            else
                 c <= c + 1;
-            END IF;
-        END IF;
-    END PROCESS;
-    PROCESS (c)
-    BEGIN
-        IF c = "11" THEN
+            end if;
+        end if;
+    end process;
+    process (c)
+    begin
+        if c = "11" then
             carry_out <= '1';       
-        ELSE
+        else
             carry_out <= '0';
-        END IF;
-    END PROCESS;
+        end if;
+    end process;
     count <= c;
-END a;
+end a;
+
