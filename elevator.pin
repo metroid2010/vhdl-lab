@@ -68,15 +68,15 @@ Pin Name/Usage               : Location  : Dir.   : I/O Standard      : Voltage 
 GND+                         : 1         :        :                   :         :           :                
 GND+                         : 2         :        :                   :         :           :                
 VCC                          : 3         : power  :                   :         :           :                
-enable                       : 4         : input  : TTL               :         :           : N              
-input[1]                     : 5         : input  : TTL               :         :           : N              
+reset                        : 4         : input  : TTL               :         :           : N              
+sense                        : 5         : input  : TTL               :         :           : N              
 RESERVED                     : 6         :        :                   :         :           :                
 TDI                          : 7         : input  : TTL               :         :           : N              
 RESERVED                     : 8         :        :                   :         :           :                
-RESERVED                     : 9         :        :                   :         :           :                
+carry_out                    : 9         : output : TTL               :         :           : N              
 GND                          : 10        : gnd    :                   :         :           :                
-output[1]                    : 11        : output : TTL               :         :           : N              
-output[0]                    : 12        : output : TTL               :         :           : N              
+count[1]                     : 11        : output : TTL               :         :           : N              
+count[0]                     : 12        : output : TTL               :         :           : N              
 TMS                          : 13        : input  : TTL               :         :           : N              
 RESERVED                     : 14        :        :                   :         :           :                
 VCC                          : 15        : power  :                   :         :           :                
@@ -104,8 +104,8 @@ RESERVED                     : 36        :        :                   :         
 RESERVED                     : 37        :        :                   :         :           :                
 TDO                          : 38        : output : TTL               :         :           : N              
 RESERVED                     : 39        :        :                   :         :           :                
-input[0]                     : 40        : input  : TTL               :         :           : N              
-reset                        : 41        : input  : TTL               :         :           : N              
+enable                       : 40        : input  : TTL               :         :           : N              
+sensor                       : 41        : input  : TTL               :         :           : N              
 GND                          : 42        : gnd    :                   :         :           :                
 clk                          : 43        : input  : TTL               :         :           : N              
 GND+                         : 44        :        :                   :         :           :                

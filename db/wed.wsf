@@ -38,6 +38,97 @@ VECTOR("E:/ALTERA_PROJECTS/VHDL-LAB/encoder4_test.vwf")
 		INTERVAL_TYPE = HALF_GRID;
 	}
 	LINE{
+		SIGNAL = "B";
+		INDEX = 0;
+		FORMAT = T;
+		SCALE = 1;
+		VISIBLE = Y;
+		FLAG = N;
+	}
+	LINE{
+		SIGNAL = "B[3]";
+		INDEX = 1;
+		FORMAT = E;
+		SCALE = 1;
+		VISIBLE = Y;
+		FLAG = N;
+	}
+	LINE{
+		SIGNAL = "B[2]";
+		INDEX = 2;
+		FORMAT = E;
+		SCALE = 1;
+		VISIBLE = Y;
+		FLAG = N;
+	}
+	LINE{
+		SIGNAL = "B[1]";
+		INDEX = 3;
+		FORMAT = E;
+		SCALE = 1;
+		VISIBLE = Y;
+		FLAG = N;
+	}
+	LINE{
+		SIGNAL = "B[0]";
+		INDEX = 4;
+		FORMAT = E;
+		SCALE = 1;
+		VISIBLE = Y;
+		FLAG = N;
+	}
+	LINE{
+		SIGNAL = "PCOD";
+		INDEX = 5;
+		FORMAT = T;
+		SCALE = 1;
+		VISIBLE = Y;
+		FLAG = N;
+	}
+	LINE{
+		SIGNAL = "PCOD[1]";
+		INDEX = 6;
+		FORMAT = E;
+		SCALE = 1;
+		VISIBLE = Y;
+		FLAG = N;
+	}
+	LINE{
+		SIGNAL = "PCOD[0]";
+		INDEX = 7;
+		FORMAT = E;
+		SCALE = 1;
+		VISIBLE = Y;
+		FLAG = N;
+	}
+	LINE{
+		SIGNAL = "PRESSED";
+		INDEX = 8;
+		FORMAT = E;
+		SCALE = 1;
+		VISIBLE = Y;
+		FLAG = N;
+	}
+}
+
+VECTOR("E:/ALTERA_PROJECTS/VHDL-LAB/register2_test.vwf")
+{
+	ZOOM{
+		ZBEGIN = 0;
+		ZEND = 158000;
+		NUMERATOR = 790;
+		DENOMINATOR = 158000;
+		TOP_INDEX = 0;
+	}
+	CLOCK{
+		PERIOD = 10000;
+		OFFSET = 0;
+		DUTY_CYCLE = 50;
+	}
+	RANDOM_VALUE{
+		INTERVAL_TYPE = HALF_GRID;
+	}
+	LINE{
 		SIGNAL = "clk";
 		INDEX = 0;
 		FORMAT = E;
@@ -78,8 +169,16 @@ VECTOR("E:/ALTERA_PROJECTS/VHDL-LAB/encoder4_test.vwf")
 		FLAG = N;
 	}
 	LINE{
-		SIGNAL = "output";
+		SIGNAL = "reset";
 		INDEX = 5;
+		FORMAT = E;
+		SCALE = 1;
+		VISIBLE = Y;
+		FLAG = N;
+	}
+	LINE{
+		SIGNAL = "output";
+		INDEX = 6;
 		FORMAT = T;
 		SCALE = 1;
 		VISIBLE = Y;
@@ -87,14 +186,6 @@ VECTOR("E:/ALTERA_PROJECTS/VHDL-LAB/encoder4_test.vwf")
 	}
 	LINE{
 		SIGNAL = "output[1]";
-		INDEX = 6;
-		FORMAT = E;
-		SCALE = 1;
-		VISIBLE = Y;
-		FLAG = N;
-	}
-	LINE{
-		SIGNAL = "output[0]";
 		INDEX = 7;
 		FORMAT = E;
 		SCALE = 1;
@@ -102,7 +193,7 @@ VECTOR("E:/ALTERA_PROJECTS/VHDL-LAB/encoder4_test.vwf")
 		FLAG = N;
 	}
 	LINE{
-		SIGNAL = "reset";
+		SIGNAL = "output[0]";
 		INDEX = 8;
 		FORMAT = E;
 		SCALE = 1;

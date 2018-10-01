@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY MAX7000S
 set_global_assignment -name DEVICE "EPM7064SLC44-10"
-set_global_assignment -name TOP_LEVEL_ENTITY register2
+set_global_assignment -name TOP_LEVEL_ENTITY counter3
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 9.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:08:54  SEPTEMBER 28, 2018"
 set_global_assignment -name LAST_QUARTUS_VERSION 9.1
@@ -47,12 +47,12 @@ set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulati
 set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
-set_global_assignment -name VHDL_FILE counter.vhd
 set_global_assignment -name VHDL_FILE encoder4.vhd
 set_global_assignment -name SIMULATION_MODE FUNCTIONAL
 set_global_assignment -name VECTOR_WAVEFORM_FILE encoder4_test.vwf
-set_global_assignment -name END_TIME "200 ns"
+set_global_assignment -name END_TIME "500 ns"
 set_global_assignment -name VHDL_FILE register2.vhd
-set_global_assignment -name VECTOR_WAVEFORM_FILE register2.vwf
 set_global_assignment -name VECTOR_WAVEFORM_FILE register2_test.vwf
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE register2_test.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE counter_test.vwf
+set_global_assignment -name VHDL_FILE counter3.vhd
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE counter_test.vwf
