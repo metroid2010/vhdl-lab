@@ -1,8 +1,17 @@
-|edge_det
-input => output~1.IN1
-input => q.DATAIN
-clk => q.CLK
-reset => q.ACLR
-output <= output~1.DB_MAX_OUTPUT_PORT_TYPE
+|comparator
+floor[0] => LessThan0.IN3
+floor[0] => LessThan1.IN3
+floor[1] => LessThan0.IN2
+floor[1] => LessThan1.IN2
+floor[2] => LessThan0.IN1
+floor[2] => LessThan1.IN1
+target[0] => LessThan0.IN6
+target[0] => LessThan1.IN6
+target[1] => LessThan0.IN5
+target[1] => LessThan1.IN5
+target[2] => LessThan0.IN4
+target[2] => LessThan1.IN4
+sense <= sense~0.DB_MAX_OUTPUT_PORT_TYPE
+motor <= motor~0.DB_MAX_OUTPUT_PORT_TYPE
 
 

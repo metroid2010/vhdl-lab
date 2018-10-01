@@ -16,7 +16,7 @@
 -- PROGRAM "Quartus II"
 -- VERSION "Version 9.1 Build 222 10/21/2009 SJ Web Edition"
 
--- DATE "10/01/2018 17:18:29"
+-- DATE "10/01/2018 18:14:33"
 
 -- 
 -- Device: Altera EPM7064SLC44-10 Package PLCC44
@@ -31,134 +31,233 @@ LIBRARY MAX;
 USE IEEE.STD_LOGIC_1164.ALL;
 USE MAX.MAX_COMPONENTS.ALL;
 
-ENTITY 	edge_det IS
+ENTITY 	comparator IS
     PORT (
-	input : IN std_logic;
-	clk : IN std_logic;
-	reset : IN std_logic;
-	output : OUT std_logic
+	floor : IN IEEE.NUMERIC_STD.unsigned(2 DOWNTO 0);
+	target : IN IEEE.NUMERIC_STD.unsigned(2 DOWNTO 0);
+	sense : OUT std_logic;
+	motor : OUT std_logic
 	);
-END edge_det;
+END comparator;
 
 -- Design Ports Information
--- input	=>  Location: PIN_41
--- clk	=>  Location: PIN_43
--- reset	=>  Location: PIN_4
--- output	=>  Location: PIN_12
+-- floor[0]	=>  Location: PIN_4
+-- floor[1]	=>  Location: PIN_41
+-- floor[2]	=>  Location: PIN_40
+-- target[0]	=>  Location: PIN_31
+-- target[1]	=>  Location: PIN_5
+-- target[2]	=>  Location: PIN_39
+-- sense	=>  Location: PIN_11
+-- motor	=>  Location: PIN_8
 
-ARCHITECTURE structure OF edge_det IS
+ARCHITECTURE structure OF comparator IS
 SIGNAL gnd : std_logic := '0';
 SIGNAL vcc : std_logic := '1';
 SIGNAL unknown : std_logic := 'X';
-SIGNAL ww_input : std_logic;
-SIGNAL ww_clk : std_logic;
-SIGNAL ww_reset : std_logic;
-SIGNAL ww_output : std_logic;
-SIGNAL q_pterm0_bus : std_logic_vector(51 DOWNTO 0);
-SIGNAL q_pterm1_bus : std_logic_vector(51 DOWNTO 0);
-SIGNAL q_pterm2_bus : std_logic_vector(51 DOWNTO 0);
-SIGNAL q_pterm3_bus : std_logic_vector(51 DOWNTO 0);
-SIGNAL q_pterm4_bus : std_logic_vector(51 DOWNTO 0);
-SIGNAL q_pterm5_bus : std_logic_vector(51 DOWNTO 0);
-SIGNAL q_pxor_bus : std_logic_vector(51 DOWNTO 0);
-SIGNAL q_pclk_bus : std_logic_vector(51 DOWNTO 0);
-SIGNAL q_pena_bus : std_logic_vector(51 DOWNTO 0);
-SIGNAL q_paclr_bus : std_logic_vector(51 DOWNTO 0);
-SIGNAL q_papre_bus : std_logic_vector(51 DOWNTO 0);
-SIGNAL \output~2_pterm0_bus\ : std_logic_vector(51 DOWNTO 0);
-SIGNAL \output~2_pterm1_bus\ : std_logic_vector(51 DOWNTO 0);
-SIGNAL \output~2_pterm2_bus\ : std_logic_vector(51 DOWNTO 0);
-SIGNAL \output~2_pterm3_bus\ : std_logic_vector(51 DOWNTO 0);
-SIGNAL \output~2_pterm4_bus\ : std_logic_vector(51 DOWNTO 0);
-SIGNAL \output~2_pterm5_bus\ : std_logic_vector(51 DOWNTO 0);
-SIGNAL \output~2_pxor_bus\ : std_logic_vector(51 DOWNTO 0);
-SIGNAL \output~2_pclk_bus\ : std_logic_vector(51 DOWNTO 0);
-SIGNAL \output~2_pena_bus\ : std_logic_vector(51 DOWNTO 0);
-SIGNAL \output~2_paclr_bus\ : std_logic_vector(51 DOWNTO 0);
-SIGNAL \output~2_papre_bus\ : std_logic_vector(51 DOWNTO 0);
-SIGNAL \clk~dataout\ : std_logic;
-SIGNAL \input~dataout\ : std_logic;
-SIGNAL \reset~dataout\ : std_logic;
-SIGNAL \q~dataout\ : std_logic;
-SIGNAL \output~2_dataout\ : std_logic;
-SIGNAL \ALT_INV_q~dataout\ : std_logic;
+SIGNAL ww_floor : std_logic_vector(2 DOWNTO 0);
+SIGNAL ww_target : std_logic_vector(2 DOWNTO 0);
+SIGNAL ww_sense : std_logic;
+SIGNAL ww_motor : std_logic;
+SIGNAL \sense~6_pterm0_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~6_pterm1_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~6_pterm2_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~6_pterm3_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~6_pterm4_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~6_pterm5_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~6_pxor_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~6_pclk_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~6_pena_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~6_paclr_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~6_papre_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~6_pterm0_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~6_pterm1_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~6_pterm2_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~6_pterm3_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~6_pterm4_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~6_pterm5_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~6_pxor_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~6_pclk_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~6_pena_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~6_paclr_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~6_papre_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_pterm0_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_pterm1_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_pterm2_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_pterm3_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_pterm4_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_pterm5_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_pxor_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_pclk_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_pena_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_paclr_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_papre_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~7_pterm0_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~7_pterm1_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~7_pterm2_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~7_pterm3_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~7_pterm4_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~7_pterm5_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~7_pxor_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~7_pclk_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~7_pena_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~7_paclr_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \motor~7_papre_bus\ : std_logic_vector(51 DOWNTO 0);
+SIGNAL \sense~7_pexpout\ : std_logic;
+SIGNAL \sense~6_dataout\ : std_logic;
+SIGNAL \motor~7_pexpout\ : std_logic;
+SIGNAL \motor~6_dataout\ : std_logic;
+SIGNAL \floor~dataout\ : std_logic_vector(2 DOWNTO 0);
+SIGNAL \target~dataout\ : std_logic_vector(2 DOWNTO 0);
+SIGNAL \ALT_INV_floor~dataout\ : std_logic_vector(2 DOWNTO 0);
+SIGNAL \ALT_INV_target~dataout\ : std_logic_vector(2 DOWNTO 0);
 
 BEGIN
 
-ww_input <= input;
-ww_clk <= clk;
-ww_reset <= reset;
-output <= ww_output;
+ww_floor <= IEEE.STD_LOGIC_1164.STD_LOGIC_VECTOR(floor);
+ww_target <= IEEE.STD_LOGIC_1164.STD_LOGIC_VECTOR(target);
+sense <= ww_sense;
+motor <= ww_motor;
 
-q_pterm0_bus <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
-& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+\sense~6_pterm0_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & \target~dataout\(2) & \target~dataout\(1) & \target~dataout\(0) & NOT \floor~dataout\(0));
 
-q_pterm1_bus <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc
-& vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & \input~dataout\);
+\sense~6_pterm1_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & NOT \floor~dataout\(1) & \target~dataout\(0) & NOT \floor~dataout\(0) & NOT \floor~dataout\(2));
 
-q_pterm2_bus <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
-& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+\sense~6_pterm2_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & \target~dataout\(1) & \target~dataout\(0) & NOT \floor~dataout\(0) & NOT \floor~dataout\(2));
 
-q_pterm3_bus <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
-& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+\sense~6_pterm3_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & \target~dataout\(2) & \target~dataout\(1) & NOT \floor~dataout\(1));
 
-q_pterm4_bus <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
-& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+\sense~6_pterm4_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & \target~dataout\(2) & NOT \floor~dataout\(1) & \target~dataout\(0) & NOT \floor~dataout\(0));
 
-q_pterm5_bus <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
-& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
-
-q_pxor_bus <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
-gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
-
-q_pclk_bus <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
-gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
-
-q_pena_bus <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
-vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc);
-
-q_paclr_bus <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc
-& vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & \reset~dataout\);
-
-q_papre_bus <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
-& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
-
-\output~2_pterm0_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
+\sense~6_pterm5_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
 gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
 
-\output~2_pterm1_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
-vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & \input~dataout\ & NOT \q~dataout\);
-
-\output~2_pterm2_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
-gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
-
-\output~2_pterm3_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
-gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
-
-\output~2_pterm4_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
-gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
-
-\output~2_pterm5_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
-gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
-
-\output~2_pxor_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+\sense~6_pxor_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
 & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
 
-\output~2_pclk_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+\sense~6_pclk_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
 & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
 
-\output~2_pena_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc
+\sense~6_pena_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc
 & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc);
 
-\output~2_paclr_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
+\sense~6_paclr_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\sense~6_papre_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~6_pterm0_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & \floor~dataout\(2) & NOT \target~dataout\(2));
+
+\motor~6_pterm1_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & \target~dataout\(0) & NOT \floor~dataout\(0));
+
+\motor~6_pterm2_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & \floor~dataout\(1) & NOT \target~dataout\(1));
+
+\motor~6_pterm3_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & NOT \floor~dataout\(1) & \target~dataout\(1));
+
+\motor~6_pterm4_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & NOT \floor~dataout\(2) & \target~dataout\(2));
+
+\motor~6_pterm5_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
 gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
 
-\output~2_papre_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
-gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
-\ALT_INV_q~dataout\ <= NOT \q~dataout\;
+\motor~6_pxor_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
 
--- Location: PIN_43
-\clk~I\ : max_io
+\motor~6_pclk_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~6_pena_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc
+& vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc);
+
+\motor~6_paclr_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~6_papre_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\sense~7_pterm0_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
+gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\sense~7_pterm1_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & \target~dataout\(2) & NOT \floor~dataout\(2));
+
+\sense~7_pterm2_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & NOT \floor~dataout\(1) & \target~dataout\(1) & NOT \floor~dataout\(2));
+
+\sense~7_pterm3_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
+gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\sense~7_pterm4_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
+gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\sense~7_pterm5_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
+gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\sense~7_pxor_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\sense~7_pclk_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\sense~7_pena_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc
+& vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc);
+
+\sense~7_paclr_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\sense~7_papre_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~7_pterm0_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
+gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~7_pterm1_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & 
+vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & NOT \target~dataout\(0) & \floor~dataout\(0));
+
+\motor~7_pterm2_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
+gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~7_pterm3_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
+gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~7_pterm4_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
+gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~7_pterm5_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & 
+gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~7_pxor_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~7_pclk_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~7_pena_bus\ <= (vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc
+& vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc & vcc);
+
+\motor~7_paclr_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+
+\motor~7_papre_bus\ <= (gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd
+& gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd & gnd);
+\ALT_INV_floor~dataout\(0) <= NOT \floor~dataout\(0);
+\ALT_INV_floor~dataout\(1) <= NOT \floor~dataout\(1);
+\ALT_INV_floor~dataout\(2) <= NOT \floor~dataout\(2);
+\ALT_INV_target~dataout\(0) <= NOT \target~dataout\(0);
+\ALT_INV_target~dataout\(1) <= NOT \target~dataout\(1);
+\ALT_INV_target~dataout\(2) <= NOT \target~dataout\(2);
+
+-- Location: PIN_40
+\floor[2]~I\ : max_io
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -168,11 +267,39 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	oe => GND,
-	padio => ww_clk,
-	dataout => \clk~dataout\);
+	padio => ww_floor(2),
+	dataout => \floor~dataout\(2));
+
+-- Location: PIN_39
+\target[2]~I\ : max_io
+-- pragma translate_off
+GENERIC MAP (
+	bus_hold => "false",
+	open_drain_output => "false",
+	operation_mode => "input",
+	weak_pull_up => "false")
+-- pragma translate_on
+PORT MAP (
+	oe => GND,
+	padio => ww_target(2),
+	dataout => \target~dataout\(2));
+
+-- Location: PIN_5
+\target[1]~I\ : max_io
+-- pragma translate_off
+GENERIC MAP (
+	bus_hold => "false",
+	open_drain_output => "false",
+	operation_mode => "input",
+	weak_pull_up => "false")
+-- pragma translate_on
+PORT MAP (
+	oe => GND,
+	padio => ww_target(1),
+	dataout => \target~dataout\(1));
 
 -- Location: PIN_41
-\input~I\ : max_io
+\floor[1]~I\ : max_io
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -182,50 +309,61 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	oe => GND,
-	padio => ww_input,
-	dataout => \input~dataout\);
-
--- Location: PIN_4
-\reset~I\ : max_io
--- pragma translate_off
-GENERIC MAP (
-	bus_hold => "false",
-	open_drain_output => "false",
-	operation_mode => "input",
-	weak_pull_up => "false")
--- pragma translate_on
-PORT MAP (
-	oe => GND,
-	padio => ww_reset,
-	dataout => \reset~dataout\);
+	padio => ww_floor(1),
+	dataout => \floor~dataout\(1));
 
 -- Location: LC2
-q : max_mcell
+\sense~7\ : max_mcell
 -- pragma translate_off
 GENERIC MAP (
-	operation_mode => "normal",
-	output_mode => "reg",
-	pexp_mode => "off",
-	power_up => "low",
-	register_mode => "dff")
+	operation_mode => "vcc",
+	output_mode => "comb",
+	pexp_mode => "on")
 -- pragma translate_on
 PORT MAP (
-	clk => \clk~dataout\,
-	pterm0 => q_pterm0_bus,
-	pterm1 => q_pterm1_bus,
-	pterm2 => q_pterm2_bus,
-	pterm3 => q_pterm3_bus,
-	pterm4 => q_pterm4_bus,
-	pterm5 => q_pterm5_bus,
-	pxor => q_pxor_bus,
-	pclk => q_pclk_bus,
-	papre => q_papre_bus,
-	paclr => q_paclr_bus,
-	pena => q_pena_bus,
-	dataout => \q~dataout\);
+	pterm0 => \sense~7_pterm0_bus\,
+	pterm1 => \sense~7_pterm1_bus\,
+	pterm2 => \sense~7_pterm2_bus\,
+	pterm3 => \sense~7_pterm3_bus\,
+	pterm4 => \sense~7_pterm4_bus\,
+	pterm5 => \sense~7_pterm5_bus\,
+	pxor => \sense~7_pxor_bus\,
+	pclk => \sense~7_pclk_bus\,
+	papre => \sense~7_papre_bus\,
+	paclr => \sense~7_paclr_bus\,
+	pena => \sense~7_pena_bus\,
+	pexpout => \sense~7_pexpout\);
 
--- Location: LC1
-\output~2\ : max_mcell
+-- Location: PIN_4
+\floor[0]~I\ : max_io
+-- pragma translate_off
+GENERIC MAP (
+	bus_hold => "false",
+	open_drain_output => "false",
+	operation_mode => "input",
+	weak_pull_up => "false")
+-- pragma translate_on
+PORT MAP (
+	oe => GND,
+	padio => ww_floor(0),
+	dataout => \floor~dataout\(0));
+
+-- Location: PIN_31
+\target[0]~I\ : max_io
+-- pragma translate_off
+GENERIC MAP (
+	bus_hold => "false",
+	open_drain_output => "false",
+	operation_mode => "input",
+	weak_pull_up => "false")
+-- pragma translate_on
+PORT MAP (
+	oe => GND,
+	padio => ww_target(0),
+	dataout => \target~dataout\(0));
+
+-- Location: LC3
+\sense~6\ : max_mcell
 -- pragma translate_off
 GENERIC MAP (
 	operation_mode => "normal",
@@ -233,21 +371,67 @@ GENERIC MAP (
 	pexp_mode => "off")
 -- pragma translate_on
 PORT MAP (
-	pterm0 => \output~2_pterm0_bus\,
-	pterm1 => \output~2_pterm1_bus\,
-	pterm2 => \output~2_pterm2_bus\,
-	pterm3 => \output~2_pterm3_bus\,
-	pterm4 => \output~2_pterm4_bus\,
-	pterm5 => \output~2_pterm5_bus\,
-	pxor => \output~2_pxor_bus\,
-	pclk => \output~2_pclk_bus\,
-	papre => \output~2_papre_bus\,
-	paclr => \output~2_paclr_bus\,
-	pena => \output~2_pena_bus\,
-	dataout => \output~2_dataout\);
+	pexpin => \sense~7_pexpout\,
+	pterm0 => \sense~6_pterm0_bus\,
+	pterm1 => \sense~6_pterm1_bus\,
+	pterm2 => \sense~6_pterm2_bus\,
+	pterm3 => \sense~6_pterm3_bus\,
+	pterm4 => \sense~6_pterm4_bus\,
+	pterm5 => \sense~6_pterm5_bus\,
+	pxor => \sense~6_pxor_bus\,
+	pclk => \sense~6_pclk_bus\,
+	papre => \sense~6_papre_bus\,
+	paclr => \sense~6_paclr_bus\,
+	pena => \sense~6_pena_bus\,
+	dataout => \sense~6_dataout\);
 
--- Location: PIN_12
-\output~I\ : max_io
+-- Location: LC4
+\motor~7\ : max_mcell
+-- pragma translate_off
+GENERIC MAP (
+	operation_mode => "vcc",
+	output_mode => "comb",
+	pexp_mode => "on")
+-- pragma translate_on
+PORT MAP (
+	pterm0 => \motor~7_pterm0_bus\,
+	pterm1 => \motor~7_pterm1_bus\,
+	pterm2 => \motor~7_pterm2_bus\,
+	pterm3 => \motor~7_pterm3_bus\,
+	pterm4 => \motor~7_pterm4_bus\,
+	pterm5 => \motor~7_pterm5_bus\,
+	pxor => \motor~7_pxor_bus\,
+	pclk => \motor~7_pclk_bus\,
+	papre => \motor~7_papre_bus\,
+	paclr => \motor~7_paclr_bus\,
+	pena => \motor~7_pena_bus\,
+	pexpout => \motor~7_pexpout\);
+
+-- Location: LC5
+\motor~6\ : max_mcell
+-- pragma translate_off
+GENERIC MAP (
+	operation_mode => "normal",
+	output_mode => "comb",
+	pexp_mode => "off")
+-- pragma translate_on
+PORT MAP (
+	pexpin => \motor~7_pexpout\,
+	pterm0 => \motor~6_pterm0_bus\,
+	pterm1 => \motor~6_pterm1_bus\,
+	pterm2 => \motor~6_pterm2_bus\,
+	pterm3 => \motor~6_pterm3_bus\,
+	pterm4 => \motor~6_pterm4_bus\,
+	pterm5 => \motor~6_pterm5_bus\,
+	pxor => \motor~6_pxor_bus\,
+	pclk => \motor~6_pclk_bus\,
+	papre => \motor~6_papre_bus\,
+	paclr => \motor~6_paclr_bus\,
+	pena => \motor~6_pena_bus\,
+	dataout => \motor~6_dataout\);
+
+-- Location: PIN_11
+\sense~I\ : max_io
 -- pragma translate_off
 GENERIC MAP (
 	bus_hold => "false",
@@ -256,9 +440,23 @@ GENERIC MAP (
 	weak_pull_up => "false")
 -- pragma translate_on
 PORT MAP (
-	datain => \output~2_dataout\,
+	datain => \sense~6_dataout\,
 	oe => VCC,
-	padio => ww_output);
+	padio => ww_sense);
+
+-- Location: PIN_8
+\motor~I\ : max_io
+-- pragma translate_off
+GENERIC MAP (
+	bus_hold => "false",
+	open_drain_output => "false",
+	operation_mode => "output",
+	weak_pull_up => "false")
+-- pragma translate_on
+PORT MAP (
+	datain => \motor~6_dataout\,
+	oe => VCC,
+	padio => ww_motor);
 END structure;
 
 

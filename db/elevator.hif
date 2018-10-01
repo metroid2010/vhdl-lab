@@ -646,6 +646,36 @@ ON
 AUTO_ROM_RECOGNITION
 ON
 }
+# lmf
+c:|altera|91|quartus|lmf|maxplus2.lmf
+a36c8ec425c8a2589af98b2d4daabc3
+# macro_sequence
+
+# end
+# entity
+comparator
+# storage
+db|elevator.(12).cnf
+db|elevator.(12).cnf
+# logic_option {
+AUTO_RAM_RECOGNITION
+ON
+}
+# case_insensitive
+# source_file
+comparator.vhd
+e6f157a61aee92e380d28be51b74bce2
+5
+# internal_option {
+HDL_INITIAL_FANOUT_LIMIT
+OFF
+AUTO_RESOURCE_SHARING
+OFF
+AUTO_RAM_RECOGNITION
+ON
+AUTO_ROM_RECOGNITION
+ON
+}
 # hierarchies {
 |
 }
