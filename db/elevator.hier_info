@@ -1,14 +1,8 @@
-|counter3
-sensor => s_count[0]~2.OUTPUTSELECT
-sensor => s_count[1]~0.OUTPUTSELECT
-reset => process_0~1.IN1
-clk => s_count[0].CLK
-clk => s_count[1].CLK
-enable => process_0~0.IN0
-sense => s_count~5.OUTPUTSELECT
-sense => s_count~4.OUTPUTSELECT
-count[0] <= s_count[0].DB_MAX_OUTPUT_PORT_TYPE
-count[1] <= s_count[1].DB_MAX_OUTPUT_PORT_TYPE
-carry_out <= carry_out~0.DB_MAX_OUTPUT_PORT_TYPE
+|edge_det
+input => output~1.IN1
+input => q.DATAIN
+clk => q.CLK
+reset => q.ACLR
+output <= output~1.DB_MAX_OUTPUT_PORT_TYPE
 
 
