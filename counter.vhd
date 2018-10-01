@@ -6,15 +6,15 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity counter is
+entity counter3 is
 port (
     reset,clk,enable : in std_logic;
     count : out unsigned(1 downto 0);
     carry_out : out std_logic
     );
-end counter;
+end counter3;
 
-architecture a of counter is
+architecture a_counter of counter3 is
     signal c: unsigned(1 downto 0);
 begin
     process (reset, clk, enable)
@@ -38,5 +38,5 @@ begin
         end if;
     end process;
     count <= c;
-end a;
+end a_counter;
 

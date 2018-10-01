@@ -8,23 +8,28 @@ use ieee.numeric_std.all;
 
 entity encoder4 is
 port (
-    B : in std_logic_vector(3 downto 0); --buttons: floor 3 -> msb, floor 0 -> lsb
-    PCOD : out std_logic_vector(1 downto 0); --encoded signal from the buttons
-    PRESSED : out std_logic --indicates if some button was pressed
+    input : in std_logic_vector(3 downto 0); --buttons: floor 3 -> msb, floor 0 -> lsb
+    output : out std_logic_vector(1 downto 0); --encoded signal from the buttons
+    active : out std_logic --indicates if some button was pressed
     );
 end encoder4;
 
 architecture a_encoder4 of encoder4 is
-
+    signal s_output: std_logic_vector(1 downto 0);
+    signal s_active: std_logic;
 begin
-process(B)
-begin
-    case B is
-        when "0001" => PCOD <= "00"; PRESSED <= '1';  --floor 0
-        when "0010" => PCOD <= "01"; PRESSED <= '1';
-        when "0100" => PCOD <= "10"; PRESSED <= '1';
-        when "1000" => PCOD <= "11"; PRESSED <= '1'; --floor 3
-        when others => PCOD <= "XX"; PRESSED <= '0';
-    end case;
-end process;
+    process(input)
+    begin
+        case input is
+            when "0001" => s_output <= "00"; s_active <= '1';  --floor 0
+            when "0010" => s_output <= "01"; s_active <= '1';
+            when "0100" => s_output <= "10"; s_active <= '1';
+            when "1000" => s_output <= "11"; s_active <= '1'; --floor 3
+            when others => s_output <= "ZZ"; s_active <= '0'; --this situation is considered as it is bound to happen
+        end case;
+    end process;
+    
+    --assign local variables to actual pins
+    output <= s_output;
+    active <= s_active;
 end a_encoder4;
