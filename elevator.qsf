@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY MAX7000S
 set_global_assignment -name DEVICE "EPM7064SLC44-10"
-set_global_assignment -name TOP_LEVEL_ENTITY comparator
+set_global_assignment -name TOP_LEVEL_ENTITY encoder4
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 9.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:08:54  SEPTEMBER 28, 2018"
 set_global_assignment -name LAST_QUARTUS_VERSION 9.1
@@ -59,4 +59,5 @@ set_global_assignment -name VHDL_FILE edge_det.vhd
 set_global_assignment -name VECTOR_WAVEFORM_FILE edge_det_test.vwf
 set_global_assignment -name VHDL_FILE comparator.vhd
 set_global_assignment -name VECTOR_WAVEFORM_FILE comparator_test.vwf
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE comparator_test.vwf
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE encoder4_test.vwf
+set_global_assignment -name SIMULATOR_GENERATE_POWERPLAY_VCD_FILE OFF

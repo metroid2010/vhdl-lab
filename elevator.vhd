@@ -14,5 +14,8 @@ port (
 end elevator;
 
 architecture a_elevator of elevator is
-begin
+    signal 
+    component reg_button
+        port(
+    
 end a_elevator;

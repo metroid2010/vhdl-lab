@@ -1,0 +1,3 @@
+comparator:
+    in: floor,target (unsigned, 2 bit)
+
