@@ -19,8 +19,11 @@ architecture a_counter of register2 is
 begin
     process (reset, clk, enable)
     begin
-        if reset = '1' then
+        if reset = '1' then -- asynchronous
             s_out <= "00";
+            
+--enable signal is needed for cases in which the elevator is moving and a user presses a button,
+--so that the system ignores said signal and keeps moving to the target
         elsif clk'EVENT and clk = '1' and enable = '1' then
             s_out <= input;
         end if;

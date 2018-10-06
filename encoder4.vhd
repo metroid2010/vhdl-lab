@@ -25,11 +25,13 @@ begin
             when "0010" => s_output <= "01"; s_act <= '1';
             when "0100" => s_output <= "10"; s_act <= '1';
             when "1000" => s_output <= "11"; s_act <= '1'; --floor 3
-            when others => s_output <= "XX"; s_act <= '0'; --failsafe for when two different buttons are pressed at the same time
+            
+            --failsafe for when two different buttons are pressed at the same time
+            when others => s_output <= "XX"; s_act <= '0';
         end case;
     end process;
     
-    --assign local variables to actual pins
+    --assign local variables to physical pins
     output <= s_output;
     act <= s_act;
 end a_encoder4;

@@ -21,7 +21,7 @@ architecture a_counter3 of counter3 is
 begin
     process (reset, clk, enable)
     begin
-        if reset = '1' or enable = '0'  then
+        if reset = '1' or enable = '0' then --asynchronous
             s_count <= "00";
         elsif clk'EVENT and clk='1' and sensor='1' then
             if sense = '1' then
@@ -41,6 +41,8 @@ begin
             carry_out <= '0';
         end if;
     end process;
+    
+    --assign local variables to physical pins
     count <= s_count;
 end a_counter3;
 

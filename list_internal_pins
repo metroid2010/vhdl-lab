@@ -1,3 +1,24 @@
 comparator:
     in: floor,target (unsigned, 2 bit)
+    out: sense,motor (std_logic)
+
+counter:
+    sensor,reset,clk,enable,sense: in std_logic; 
+    count : out unsigned(1 downto 0);
+    carry_out : out std_logic
+
+edge_det
+    input,clk,reset : in std_logic;
+    output : out std_logic
+
+elevator
+    clk,reset,sensor: in std_logic;
+    buttons: in std_logic_vector(3 downto 0);
+    sense,motor: out std_logic;
+
+encoder
+    input : in std_logic_vector(3 downto 0); --buttons: floor 3 -> msb, floor 0 -> lsb
+    output : out std_logic_vector(1 downto 0); --encoded signal from the buttons
+    act : out std_logic --indicates if some button was pressed (ACTive)
+
 
