@@ -11,7 +11,7 @@ use ieee.numeric_std.all;
 entity counter3 is
 port (
     sensor,reset,clk,enable,sense: in std_logic; --sense: 1 when up, 0 when down
-    count : out unsigned(1 downto 0);
+    count : out std_logic_vector(1 downto 0);
     carry_out : out std_logic
     );
 end counter3;
@@ -43,6 +43,6 @@ begin
     end process;
     
     --assign local variables to physical pins
-    count <= s_count;
+    count <= std_logic_vector(s_count); --automagical type conversion
 end a_counter3;
 

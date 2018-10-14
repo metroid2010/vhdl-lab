@@ -1,4 +1,27 @@
-|encoder4
+|elevator
+CLK => edge_det:ed.clk
+CLK => register2:r0.clk
+CLK => register2:r1.clk
+CLK => counter3:ct.clk
+RESET => edge_det:ed.reset
+RESET => register2:r0.reset
+RESET => register2:r1.reset
+RESET => counter3:ct.reset
+S => edge_det:ed.input
+B[0] => encoder4:en.input[0]
+B[1] => encoder4:en.input[1]
+B[2] => encoder4:en.input[2]
+B[3] => encoder4:en.input[3]
+SENSE <= comparator:cm.sense
+MOTOR <= comparator:cm.motor
+DOOR <= comb~0.DB_MAX_OUTPUT_PORT_TYPE
+FLOOR[0] <= register2:r1.output[0]
+FLOOR[1] <= register2:r1.output[1]
+TARGET[0] <= register2:r0.output[0]
+TARGET[1] <= register2:r0.output[1]
+
+
+|elevator|encoder4:en
 input[0] => Mux2.IN19
 input[1] => Mux1.IN5
 input[1] => Mux2.IN18
@@ -10,5 +33,66 @@ input[3] => Mux2.IN16
 output[0] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
 output[1] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
 act <= Mux2.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|elevator|edge_det:ed
+input => output~1.IN1
+input => q.DATAIN
+clk => q.CLK
+reset => q.ACLR
+output <= output~1.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|elevator|register2:r0
+reset => s_out[0].ACLR
+reset => s_out[1].ACLR
+clk => s_out[0].CLK
+clk => s_out[1].CLK
+enable => s_out[0]~1.OUTPUTSELECT
+enable => s_out[1]~2.OUTPUTSELECT
+input[0] => s_out[0]~1.DATAB
+input[1] => s_out[1]~2.DATAB
+output[0] <= s_out[0].DB_MAX_OUTPUT_PORT_TYPE
+output[1] <= s_out[1].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|elevator|register2:r1
+reset => s_out[0].ACLR
+reset => s_out[1].ACLR
+clk => s_out[0].CLK
+clk => s_out[1].CLK
+enable => s_out[0]~1.OUTPUTSELECT
+enable => s_out[1]~2.OUTPUTSELECT
+input[0] => s_out[0]~1.DATAB
+input[1] => s_out[1]~2.DATAB
+output[0] <= s_out[0].DB_MAX_OUTPUT_PORT_TYPE
+output[1] <= s_out[1].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|elevator|counter3:ct
+sensor => s_count[0]~2.OUTPUTSELECT
+sensor => s_count[1]~0.OUTPUTSELECT
+reset => process_0~1.IN1
+clk => s_count[0].CLK
+clk => s_count[1].CLK
+enable => process_0~0.IN0
+sense => s_count~5.OUTPUTSELECT
+sense => s_count~4.OUTPUTSELECT
+count[0] <= s_count[0].DB_MAX_OUTPUT_PORT_TYPE
+count[1] <= s_count[1].DB_MAX_OUTPUT_PORT_TYPE
+carry_out <= carry_out~0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|elevator|comparator:cm
+floor[0] => LessThan0.IN2
+floor[0] => LessThan1.IN2
+floor[1] => LessThan0.IN1
+floor[1] => LessThan1.IN1
+target[0] => LessThan0.IN4
+target[0] => LessThan1.IN4
+target[1] => LessThan0.IN3
+target[1] => LessThan1.IN3
+sense <= sense~0.DB_MAX_OUTPUT_PORT_TYPE
+motor <= motor~0.DB_MAX_OUTPUT_PORT_TYPE
 
 
